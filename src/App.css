@@ -1,0 +1,54 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+.flip-card {
+  transform-style: preserve-3d;
+  transition: 150ms;
+  transform: perspective(1000px) rotateY(var(--rotate-y, 0))
+    translateY(var(--translate-y, 0));
+  white-space: pre-wrap;
+  margin: 2rem;
+}
+
+.flip-card.false {
+  --rotate-y: 360deg;
+}
+
+.flip-card.true {
+  transform: rotateY(180deg);
+  h1 {
+    transform: rotateY(180deg);
+  }
+}
+
+.easy {
+  background-color: #02220e;
+
+  .easy-prompt {
+    background-color: #097131;
+  }
+}
+
+.medium {
+  background-color: #500801;
+
+  .medium-prompt {
+    background-color: #bd3c33;
+  }
+}
+
+.hard {
+  background-color: #050716;
+
+  .hard-prompt {
+    background-color: #3c4d82;
+  }
+}
+
+.flip-card.true div {
+  background-color: black;
+}
