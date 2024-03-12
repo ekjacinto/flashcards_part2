@@ -15,14 +15,14 @@ const Flashcard = ({
 }: FlashcardProps) => {
   return (
     <div
-      className={`h-[420px] w-[720px] flex justify-center items-center cursor-pointer text-pretty border-2 border-[#e2e2e5] rounded-3xl ${difficulty}`}
+      className={`h-[420px] w-[720px] flex justify-center items-center cursor-pointer text-pretty shadow-black shadow-lg ${difficulty}`}
       onClick={event}
     >
       <div className="w-[620px]">
         {prompt !== undefined ? (
           <section className="flex flex-col items-center shrink-0">
             <div
-              className={`w-[75%] p-4 flex justify-center rounded-full absolute top-16 ${difficulty}-prompt`}
+              className={`w-[75%] p-4 flex justify-center rounded-md absolute top-16 ${difficulty}-prompt`}
             >
               <h1 className="text-[2.75rem]">
                 <b>

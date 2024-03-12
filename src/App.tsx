@@ -10,6 +10,7 @@ import Jupiter from "./assets/jupiter.png";
 import Saturn from "./assets/saturn.png";
 import Uranus from "./assets/uranus.png";
 import Neptune from "./assets/neptune.png";
+import ShuffleButton from "./components/ShuffleButton";
 
 type Problem = {
   prompt?: string;
@@ -122,33 +123,47 @@ const problems: Problem[] = [
 ];
 
 function App() {
-  const [currentProblem, setCurrentProblem] = useState<Problem>(problems[0]);
-  const [prevProblem, setPrevProblem] = useState<Problem | null>(null);
-  const [flipCard, setFlipCard] = useState(false);
+  const [cardDeck, setCardDeck] = useState<Problem[]>(problems);
+  const [currentProblem, setCurrentProblem] = useState<Problem>(cardDeck[0]);
+  const [flipCard, setFlipCard] = useState<Boolean>(false);
 
   const prevClickHandler = () => {
-    if (prevProblem === null) {
+    if (currentProblem === cardDeck[0]) {
       return;
     }
-    setCurrentProblem(prevProblem);
+    setCurrentProblem(cardDeck[cardDeck.indexOf(currentProblem) - 1]);
     setFlipCard(false);
   };
 
   const nextClickHandler = () => {
-    setPrevProblem(currentProblem); // save current problem to prevProblem
-    if (currentProblem === problems[problems.length - 1]) {
-      setCurrentProblem(problems[0]);
-    } else {
-      let nextIndex;
-      while (
-        nextIndex === undefined ||
-        nextIndex === problems.indexOf(currentProblem)
-      ) {
-        nextIndex = Math.floor(Math.random() * problems.length);
-      }
-      setCurrentProblem(problems[nextIndex]);
+    if (currentProblem === cardDeck[cardDeck.length - 1]) {
+      return;
     }
+    setCurrentProblem(cardDeck[cardDeck.indexOf(currentProblem) + 1]);
     setFlipCard(false);
+  };
+
+  const shuffleCardsHandler = () => {
+    const shuffledCardDeck = [...cardDeck];
+    const savedIndex = cardDeck.indexOf(currentProblem);
+
+    shuffle(shuffledCardDeck);
+    const currentIndex = shuffledCardDeck.indexOf(currentProblem);
+
+    [shuffledCardDeck[currentIndex], shuffledCardDeck[savedIndex]] = [
+      shuffledCardDeck[savedIndex],
+      shuffledCardDeck[currentIndex],
+    ];
+
+    setCardDeck(shuffledCardDeck);
+  };
+
+  const shuffle = (array: Problem[]) => {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
   };
 
   const handleFlipHandler = () => {
@@ -165,7 +180,7 @@ function App() {
       </h1>
       <div className="text-3xl">
         <p>Test your knowledge on the solar system!</p>
-        <p>Total number of cards: {problems.length}</p>
+        <p>Total number of cards: {cardDeck.length}</p>
       </div>
       <div className="flex">
         {flipCard === false ? (
@@ -200,8 +215,9 @@ function App() {
           </div>
         )}
       </div>
-      <div className="flex justify-center gap-4">
+      <div className="flex justify-center gap-3">
         <PrevButton event={prevClickHandler} />
+        <ShuffleButton event={shuffleCardsHandler} />
         <NextButton event={nextClickHandler} />
       </div>
     </div>
