@@ -11,14 +11,13 @@
   transform: perspective(1000px) rotateY(var(--rotate-y, 0))
     translateY(var(--translate-y, 0));
   white-space: pre-wrap;
-  margin: 2rem;
 }
 
-.flip-card.false {
+.false {
   --rotate-y: 360deg;
 }
 
-.flip-card.true {
+.true {
   transform: rotateY(180deg);
   h1 {
     transform: rotateY(180deg);
@@ -49,6 +48,6 @@
   }
 }
 
-.flip-card.true div {
+.flip-card.true {
   background-color: black;
 }

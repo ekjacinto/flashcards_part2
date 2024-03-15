@@ -182,37 +182,40 @@ function App() {
         <p>Test your knowledge on the solar system!</p>
         <p>Total number of cards: {cardDeck.length}</p>
       </div>
-      <div className="flex">
+      <div>
         {flipCard === false ? (
-          <div className="flip-card false">
-            {currentProblem.prompt !== undefined ? (
-              currentProblem.image !== undefined ? (
-                <Flashcard
-                  prompt={currentProblem.prompt}
-                  text={currentProblem.question}
-                  img={currentProblem.image}
-                  difficulty={currentProblem.difficulty}
-                  event={handleFlipHandler}
-                />
-              ) : (
-                <Flashcard
-                  prompt={currentProblem.prompt}
-                  text={currentProblem.question}
-                  difficulty={currentProblem.difficulty}
-                  event={handleFlipHandler}
-                />
-              )
-            ) : (
+          currentProblem.prompt !== undefined ? (
+            currentProblem.image !== undefined ? (
               <Flashcard
+                prompt={currentProblem.prompt}
                 text={currentProblem.question}
+                img={currentProblem.image}
+                difficulty={currentProblem.difficulty}
+                flipped={flipCard}
                 event={handleFlipHandler}
               />
-            )}
-          </div>
+            ) : (
+              <Flashcard
+                prompt={currentProblem.prompt}
+                text={currentProblem.question}
+                difficulty={currentProblem.difficulty}
+                flipped={flipCard}
+                event={handleFlipHandler}
+              />
+            )
+          ) : (
+            <Flashcard
+              text={currentProblem.question}
+              event={handleFlipHandler}
+              flipped={flipCard}
+            />
+          )
         ) : (
-          <div className="flip-card true font-bold">
-            <Flashcard text={currentProblem.answer} event={handleFlipHandler} />
-          </div>
+          <Flashcard
+            text={currentProblem.answer}
+            event={handleFlipHandler}
+            flipped={flipCard}
+          />
         )}
       </div>
       <div className="flex justify-center gap-3">
