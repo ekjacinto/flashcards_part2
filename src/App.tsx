@@ -126,7 +126,7 @@ const problems: Problem[] = [
 function App() {
   const [cardDeck, setCardDeck] = useState<Problem[]>(problems);
   const [currentProblem, setCurrentProblem] = useState<Problem>(cardDeck[0]);
-  const [flipCard, setFlipCard] = useState<Boolean>(false);
+  const [flipCard, setFlipCard] = useState<boolean>(false);
 
   const prevClickHandler = () => {
     if (currentProblem === cardDeck[0]) {
@@ -173,7 +173,7 @@ function App() {
 
   return (
     <div className="flex flex-col justify-center items-center">
-      <h1 className="text-7xl font-bold m-4">
+      <h1 className="text-7xl font-bold m-8">
         Solar System{" "}
         <span className="inline-block text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-pink-500 to-green-400">
           Trivia
@@ -183,7 +183,9 @@ function App() {
         <p>Test your knowledge on the solar system!</p>
         <p>Total number of cards: {cardDeck.length}</p>
       </div>
-      <div>
+
+      <div className="flex justify-center items-center gap-2 mt-4">
+        <PrevButton event={prevClickHandler} />
         <NextFlashcard />
         {flipCard === false ? (
           currentProblem.prompt !== undefined ? (
@@ -219,12 +221,9 @@ function App() {
             flipped={flipCard}
           />
         )}
-      </div>
-      <div className="flex justify-center gap-3">
-        <PrevButton event={prevClickHandler} />
-        <ShuffleButton event={shuffleCardsHandler} />
         <NextButton event={nextClickHandler} />
       </div>
+      <ShuffleButton event={shuffleCardsHandler} />
     </div>
   );
 }

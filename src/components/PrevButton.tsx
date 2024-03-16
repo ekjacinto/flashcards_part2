@@ -4,15 +4,13 @@ type PrevButtonProps = {
 
 const PrevButton = ({ event }: PrevButtonProps) => {
   return (
-    <div className="flex justify-center h-8">
-      <div className="bg-white w-[90px] h-12 flex justify-center items-center rounded-3xl shadow-2xl shadow-white">
-        <button
-          className="text-black text-3xl font-bold w-full"
-          onClick={event}
-        >
-          {"<"}
-        </button>
-      </div>
+    <div className="bg-[#191922] w-[50px] h-[50px] rounded-full shadow-2xl shadow-white border-2 border-[#d2d2d4]">
+      <button
+        className="text-[#d2d2d4] text-3xl font-bold w-full"
+        onClick={event}
+      >
+        {"<"}
+      </button>
     </div>
   );
 };
