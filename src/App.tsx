@@ -11,6 +11,7 @@ import Saturn from "./assets/saturn.png";
 import Uranus from "./assets/uranus.png";
 import Neptune from "./assets/neptune.png";
 import ShuffleButton from "./components/ShuffleButton";
+import NextFlashcard from "./components/NextFlashcard";
 
 type Problem = {
   prompt?: string;
@@ -183,6 +184,7 @@ function App() {
         <p>Total number of cards: {cardDeck.length}</p>
       </div>
       <div>
+        <NextFlashcard />
         {flipCard === false ? (
           currentProblem.prompt !== undefined ? (
             currentProblem.image !== undefined ? (
