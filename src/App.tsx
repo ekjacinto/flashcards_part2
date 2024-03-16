@@ -12,6 +12,9 @@ import Uranus from "./assets/uranus.png";
 import Neptune from "./assets/neptune.png";
 import ShuffleButton from "./components/ShuffleButton";
 import NextFlashcard from "./components/NextFlashcard";
+import GuessForm from "./components/GuessForm";
+import Right from "./assets/right.png";
+import Wrong from "./assets/wrong.png";
 
 type Problem = {
   prompt?: string;
@@ -25,100 +28,100 @@ const problems: Problem[] = [
   {
     prompt: "Guess the planet!",
     question: "Which planet is known as the Red Planet?",
-    answer: "Answer: Mars",
+    answer: "Mars",
     difficulty: "easy",
   },
   {
     prompt: "Guess the number!",
     question: "How many planets are in the solar system?",
-    answer: "Answer: 8",
+    answer: "8",
     difficulty: "easy",
   },
   {
     prompt: "Guess the planet!",
     question: "Which planet is known for its great red spot?",
-    answer: "Answer: Jupiter",
+    answer: "Jupiter",
     difficulty: "easy",
   },
   {
     prompt: "Guess the number!",
     question:
       "How many moons does Jupiter have? (as of 2021, according to NASA)",
-    answer: "Answer: 79",
+    answer: "79",
     difficulty: "hard",
   },
   {
     prompt: "Guess the planets!",
     question: "Which planets are known as the ice giants?",
-    answer: "Answer: Uranus and Neptune",
+    answer: "Uranus and Neptune",
     difficulty: "hard",
   },
   {
     prompt: "Guess the planets!",
     question: "Which two planets are known as the gas giants?",
-    answer: "Answer: Jupiter and Saturn",
+    answer: "Jupiter and Saturn",
     difficulty: "medium",
   },
   {
     prompt: "Guess the planets!",
     question:
       "Which planets are known as the terrestrial planets? (rocky planets)",
-    answer: "Answer: Mercury, Venus, Earth, and Mars",
+    answer: "Mercury, Venus, Earth, and Mars",
     difficulty: "hard",
   },
   {
     prompt: "Guess the planets!",
     question: "Which planets have rings around them?",
-    answer: "Answer: Jupiter, Saturn, Uranus, and Neptune",
+    answer: "Jupiter, Saturn, Uranus, and Neptune",
     difficulty: "medium",
   },
   {
     prompt: "Guess the planet!",
     question: "",
     image: Mercury,
-    answer: "Answer: Mercury",
+    answer: "Mercury",
     difficulty: "hard",
   },
   {
     prompt: "Guess the planet!",
     question: "",
     image: Earth,
-    answer: "Answer: Earth",
+    answer: "Earth",
     difficulty: "easy",
   },
   {
     prompt: "Guess the planet!",
     question: "",
     image: Mars,
-    answer: "Answer: Mars",
+    answer: "Mars",
     difficulty: "medium",
   },
   {
     prompt: "Guess the planet!",
     question: "",
     image: Jupiter,
-    answer: "Answer: Jupiter",
+    answer: "Jupiter",
     difficulty: "easy",
   },
   {
     prompt: "Guess the planet!",
     question: "",
     image: Saturn,
-    answer: "Answer: Saturn",
+    answer: "Saturn",
     difficulty: "easy",
   },
   {
     prompt: "Guess the planet!",
     question: "",
     image: Uranus,
-    answer: "Answer: Uranus",
+    answer: "Uranus",
     difficulty: "hard",
   },
   {
     prompt: "Guess the planet!",
     question: "",
     image: Neptune,
-    answer: "Answer: Neptune",
+    answer: "Neptune",
     difficulty: "hard",
   },
 ];
@@ -127,6 +130,11 @@ function App() {
   const [cardDeck, setCardDeck] = useState<Problem[]>(problems);
   const [currentProblem, setCurrentProblem] = useState<Problem>(cardDeck[0]);
   const [flipCard, setFlipCard] = useState<boolean>(false);
+  const [guess, setGuess] = useState<string>("");
+  const [answered, setAnswered] = useState<boolean>(false);
+  const [correct, setCorrect] = useState<boolean>(false);
+  const [correctStreak, setCorrectStreak] = useState<number>(0);
+  const [longestStreak, setLongestStreak] = useState<number>(0);
 
   const prevClickHandler = () => {
     if (currentProblem === cardDeck[0]) {
@@ -134,6 +142,8 @@ function App() {
     }
     setCurrentProblem(cardDeck[cardDeck.indexOf(currentProblem) - 1]);
     setFlipCard(false);
+    setAnswered(false);
+    setCorrect(false);
   };
 
   const nextClickHandler = () => {
@@ -142,6 +152,8 @@ function App() {
     }
     setCurrentProblem(cardDeck[cardDeck.indexOf(currentProblem) + 1]);
     setFlipCard(false);
+    setAnswered(false);
+    setCorrect(false);
   };
 
   const shuffleCardsHandler = () => {
@@ -172,6 +184,62 @@ function App() {
     setFlipCard(!flipCard);
   };
 
+  const handleTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setGuess(e.target.value);
+  };
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    validateAnswers();
+  };
+
+  const validateAnswers = () => {
+    if (guess === "") {
+      setCorrect(false);
+      setAnswered(true);
+      setCorrectStreak(0);
+      return;
+    }
+
+    const delimiters = /(and)|,/gi;
+    const validatedCorrectAnswer = currentProblem.answer
+      .replace(delimiters, " ")
+      .split(" ")
+      .map((word) => word.toLowerCase())
+      .filter((word) => word !== "")
+      .sort();
+
+    const validatedGuess = guess
+      .replace(delimiters, " ")
+      .split(" ")
+      .map((word) => word.toLowerCase())
+      .filter((word) => word !== "")
+      .sort();
+
+    if (validatedCorrectAnswer.length !== validatedGuess.length) {
+      setCorrect(false);
+      setAnswered(true);
+      setCorrectStreak(0);
+      return;
+    }
+    if (
+      validatedCorrectAnswer.every(
+        (word, index) => word === validatedGuess[index]
+      )
+    ) {
+      setCorrect(true);
+      setAnswered(true);
+      setCorrectStreak((correctStreak) => correctStreak + 1);
+    } else {
+      setCorrect(false);
+      setAnswered(true);
+      setCorrectStreak(0);
+    }
+    if (correctStreak >= longestStreak) {
+      setLongestStreak((correctStreak) => correctStreak + 1);
+    }
+  };
+
   return (
     <div className="flex flex-col justify-center items-center">
       <h1 className="text-7xl font-bold m-8">
@@ -180,14 +248,24 @@ function App() {
           Trivia
         </span>
       </h1>
-      <div className="text-3xl">
+      <div className="text-3xl leading-10">
         <p>Test your knowledge on the solar system!</p>
         <p>Total number of cards: {cardDeck.length}</p>
+        <p>
+          Correct Streak: <span className="font-bold">{correctStreak}</span>,
+          Longest Streak: <span className="font-bold">{longestStreak}</span>
+        </p>
       </div>
 
       <div className="flex justify-center items-center gap-2 mt-4">
         <PrevButton event={prevClickHandler} />
         <NextFlashcard />
+        {answered === true && correct === false ? (
+          <img src={Wrong} className="guess-symbol absolute z-10 w-[280px]" />
+        ) : answered === true && correct === true ? (
+          <img src={Right} className="guess-symbol absolute z-10 w-[280px]" />
+        ) : null}
+
         {flipCard === false ? (
           currentProblem.prompt !== undefined ? (
             currentProblem.image !== undefined ? (
@@ -224,6 +302,13 @@ function App() {
         )}
         <NextButton event={nextClickHandler} />
       </div>
+      <GuessForm
+        answered={answered}
+        correct={correct}
+        inputValue={guess}
+        inputEvent={handleTextChange}
+        submitEvent={handleSubmit}
+      />
       <ShuffleButton event={shuffleCardsHandler} />
     </div>
   );

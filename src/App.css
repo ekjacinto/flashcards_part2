@@ -51,3 +51,16 @@
 .flip-card.true {
   background-color: black;
 }
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.guess-symbol {
+  animation: fadeIn 0.5s;
+}
