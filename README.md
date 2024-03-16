@@ -30,6 +30,8 @@ The following **additional** features are implemented:
 
 Here's a walkthrough of implemented user stories:
 
+![solar-system-trivia2](https://github.com/ekjacinto/flashcards_part2/assets/109046831/227355f9-79db-4113-8ce3-0a6b48abe0ed)
+
 <!-- Replace this with whatever GIF tool you used! -->
 
 GIF created with [Veed](https://www.veed.io/convert/mp4-to-gif)
