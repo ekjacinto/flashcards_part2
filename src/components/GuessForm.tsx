@@ -16,12 +16,14 @@ const GuessForm = ({
   return (
     <div>
       <form className="flex gap-2 mb-4" onSubmit={submitEvent}>
-        <label className="text-3xl" htmlFor="search">
+        <label className="text-3xl" htmlFor="guess">
           Guess the Answer:
         </label>
         <input
           className="w-48 bg-[#191922] rounded-2xl border-2 border-[#d2d2d4] text-center text-xl"
           type="text"
+          name="guess"
+          id="guess"
           value={inputValue}
           onChange={inputEvent}
         />

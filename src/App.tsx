@@ -15,6 +15,7 @@ import NextFlashcard from "./components/NextFlashcard";
 import GuessForm from "./components/GuessForm";
 import Right from "./assets/right.png";
 import Wrong from "./assets/wrong.png";
+import Star from "./assets/star.png";
 
 type Problem = {
   prompt?: string;
@@ -135,9 +136,10 @@ function App() {
   const [correct, setCorrect] = useState<boolean>(false);
   const [correctStreak, setCorrectStreak] = useState<number>(0);
   const [longestStreak, setLongestStreak] = useState<number>(0);
+  const [masteredCards, setMasteredCards] = useState<Problem[]>([]);
 
   const prevClickHandler = () => {
-    if (currentProblem === cardDeck[0]) {
+    if (currentProblem === cardDeck[0] || cardDeck.length === 0) {
       return;
     }
     setCurrentProblem(cardDeck[cardDeck.indexOf(currentProblem) - 1]);
@@ -147,7 +149,10 @@ function App() {
   };
 
   const nextClickHandler = () => {
-    if (currentProblem === cardDeck[cardDeck.length - 1]) {
+    if (
+      currentProblem === cardDeck[cardDeck.length - 1] ||
+      cardDeck.length === 0
+    ) {
       return;
     }
     setCurrentProblem(cardDeck[cardDeck.indexOf(currentProblem) + 1]);
@@ -176,7 +181,7 @@ function App() {
     return array;
   };
 
-  const handleFlipHandler = () => {
+  const handleFlip = () => {
     setFlipCard(!flipCard);
   };
 
@@ -236,6 +241,23 @@ function App() {
     }
   };
 
+  const handleMasterCard = () => {
+    if (cardDeck.length === 0) {
+      return;
+    }
+    setMasteredCards([...masteredCards, currentProblem]);
+    const savedIndex = cardDeck.indexOf(currentProblem);
+    const previousCards = cardDeck.slice(0, savedIndex);
+    const nextCards = cardDeck.slice(savedIndex + 1);
+    setCardDeck([...previousCards, ...nextCards]);
+    if (cardDeck.indexOf(currentProblem) === cardDeck.length - 1) {
+      prevClickHandler();
+    } else {
+      nextClickHandler();
+    }
+    console.log(masteredCards);
+  };
+
   return (
     <div className="flex flex-col justify-center items-center">
       <h1 className="text-7xl font-bold m-8">
@@ -261,13 +283,26 @@ function App() {
       <div className="flex justify-center items-center gap-2 mt-4">
         <PrevButton event={prevClickHandler} />
         <NextFlashcard />
+        <img
+          src={Star}
+          width={35}
+          className="mb-[320px] ml-[670px] absolute z-10 cursor-pointer"
+          onClick={handleMasterCard}
+        />
         {answered === true && correct === false ? (
           <img src={Wrong} className="guess-symbol absolute z-10 w-[280px]" />
         ) : answered === true && correct === true ? (
           <img src={Right} className="guess-symbol absolute z-10 w-[280px]" />
         ) : null}
 
-        {flipCard === false ? (
+        {cardDeck.length === 0 ? (
+          <Flashcard
+            text={"No more cards left!"}
+            difficulty={"null"}
+            flipped={flipCard}
+            event={handleFlip}
+          />
+        ) : flipCard === false ? (
           currentProblem.prompt !== undefined ? (
             currentProblem.image !== undefined ? (
               <Flashcard
@@ -276,7 +311,7 @@ function App() {
                 img={currentProblem.image}
                 difficulty={currentProblem.difficulty}
                 flipped={flipCard}
-                event={handleFlipHandler}
+                event={handleFlip}
               />
             ) : (
               <Flashcard
@@ -284,20 +319,20 @@ function App() {
                 text={currentProblem.question}
                 difficulty={currentProblem.difficulty}
                 flipped={flipCard}
-                event={handleFlipHandler}
+                event={handleFlip}
               />
             )
           ) : (
             <Flashcard
               text={currentProblem.question}
-              event={handleFlipHandler}
+              event={handleFlip}
               flipped={flipCard}
             />
           )
         ) : (
           <Flashcard
             text={currentProblem.answer}
-            event={handleFlipHandler}
+            event={handleFlip}
             flipped={flipCard}
           />
         )}

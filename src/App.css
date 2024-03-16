@@ -64,3 +64,7 @@
 .guess-symbol {
   animation: fadeIn 0.5s;
 }
+
+.null {
+  background-color: black;
+}
