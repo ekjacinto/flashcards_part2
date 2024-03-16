@@ -1,37 +1,35 @@
-# Web Development Project 2 - _Solar System Trivia_
+# Web Development Project 3 - _Solar System Trivia II_
 
 Submitted by: **Ethan Jacinto**
 
 This web app: **provides 15 flashcards testing user knowledge on the solar system**
 
-Time spent: **12** hours spent in total
+Time spent: **16** hours spent in total
 
 ## Required Features
 
 The following **required** functionality is completed:
 
-- [x] **The title of the card set and some information about it, such as a short description and the total number of cards are displayed**
-- [x] **A single card at a time is displayed, only showing one of the components of the information pair**
-- [x] **A list of card pairs is created**
-- [x] **Clicking on the card shows the corresponding component of the information pair**
-- [x] **Clicking the next button displays a random new card**
+- [x] **The user can enter their guess in a box before seeing the flipside of the card**
+- [x] **Clicking on a submit button shows visual feedback about whether the answer was correct or incorrect**
+- [x] **A back button is displayed on the card and can be used to return to the previous card in a set sequence**
+- [x] **A next button is displayed on the card and can be used to navigate to the next card in a set sequence**
 
 The following **optional** features are implemented:
 
-- [x] Cards contains images in addition to or in place of text
-- [x] Cards have different visual styles such as color based on their category
-  - [x] _styles for flashcard difficulty (easy == green, medium == red, hard == purple)_
+- [x] A shuffle button is used to randomize the order of the cards
+- [x] A user's answer may be counted as correct even when it is slightly different from the target answer
+- [x] A counter displays the user's current and longest streak of correct responses
+- [x] A user can mark a card that they have mastered and have it removed from the pool of answers as well as added to a list of mastered cards
 
 The following **additional** features are implemented:
 
 - [x] Utilization of gradient colors for a better UI design
-- [x] Implementation of a previous card button that renders the content of the previous flashcard
 
 ## Video Walkthrough
 
-Here's a walkthrough of implemented required features:
+Here's a walkthrough of implemented user stories:
 
-![solar-system-trivia](https://github.com/ekjacinto/flashcards/assets/109046831/d503c913-26dd-4c7a-a331-0c95be2824fd)
 <!-- Replace this with whatever GIF tool you used! -->
 
 GIF created with [Veed](https://www.veed.io/convert/mp4-to-gif)
@@ -43,7 +41,7 @@ GIF created with [Veed](https://www.veed.io/convert/mp4-to-gif)
 
 ## Notes
 
-One of the main challenges in creating this app was conditionally rendering elements based on the props to be passed in. In addition, I challenged myself using TypeScript and Tailwind, which gave me difficulty in writing code and implementing the types and styles to be used.
+One of the main challenges in creating this app was integrating complex user input through the use of state and applying validation to the user input for similar, correct answers. In addition, I found challenge in implementing style changes using Tailwind's various utility classes.
 
 ## License
 
