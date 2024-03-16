@@ -157,24 +157,20 @@ function App() {
   };
 
   const shuffleCardsHandler = () => {
-    const shuffledCardDeck = [...cardDeck];
     const savedIndex = cardDeck.indexOf(currentProblem);
+    const visitedCards = cardDeck.slice(0, savedIndex + 1);
+    const nextCards = cardDeck.slice(savedIndex + 1);
 
-    shuffle(shuffledCardDeck, savedIndex);
-    const currentIndex = shuffledCardDeck.indexOf(currentProblem);
-
-    [shuffledCardDeck[currentIndex], shuffledCardDeck[savedIndex]] = [
-      shuffledCardDeck[savedIndex],
-      shuffledCardDeck[currentIndex],
-    ];
+    let shuffledCardDeck = shuffle(nextCards);
+    shuffledCardDeck = [...visitedCards, ...nextCards];
 
     setCardDeck(shuffledCardDeck);
+    setCurrentProblem(cardDeck[savedIndex]);
   };
 
-  const shuffle = (array: Problem[], currentIndex: number) => {
+  const shuffle = (array: Problem[]) => {
     for (let i = array.length - 1; i > 0; i--) {
-      const j =
-        Math.floor(Math.random() * (i - currentIndex + 1)) + currentIndex;
+      const j = Math.floor(Math.random() * (i + 1));
       [array[i], array[j]] = [array[j], array[i]];
     }
     return array;
@@ -250,10 +246,15 @@ function App() {
       </h1>
       <div className="text-3xl leading-10">
         <p>Test your knowledge on the solar system!</p>
-        <p>Total number of cards: {cardDeck.length}</p>
         <p>
-          Correct Streak: <span className="font-bold">{correctStreak}</span>,
-          Longest Streak: <span className="font-bold">{longestStreak}</span>
+          Total number of cards:{" "}
+          <span className="font-bold text-red-500">{cardDeck.length}</span>
+        </p>
+        <p>
+          Correct Streak:{" "}
+          <span className="font-bold text-orange-500">{correctStreak}</span>,
+          Longest Streak:{" "}
+          <span className="font-bold text-yellow-500">{longestStreak}</span>
         </p>
       </div>
 
