@@ -25,18 +25,18 @@
 }
 
 .easy {
-  background-color: #02220e;
+  background-color: #163805;
 
   .easy-prompt {
-    background-color: #097131;
+    background-color: #3f891a;
   }
 }
 
 .medium {
-  background-color: #500801;
+  background-color: #450213;
 
   .medium-prompt {
-    background-color: #bd3c33;
+    background-color: #dc4c6f;
   }
 }
 

@@ -3,7 +3,7 @@ type FlashcardProps = {
   text: string;
   img?: string;
   difficulty?: string;
-  flipped: Boolean;
+  flipped: boolean;
   event: () => void;
 };
 
@@ -24,7 +24,7 @@ const Flashcard = ({
         {prompt !== undefined ? (
           <section className="flex flex-col items-center shrink-0">
             <div
-              className={`w-[75%] p-4 rounded-md absolute top-16 ${difficulty}-prompt`}
+              className={`w-[75%] p-4 rounded-md absolute top-14 ${difficulty}-prompt`}
             >
               <h1 className="text-[2.75rem] underline">
                 <b>{prompt}</b>

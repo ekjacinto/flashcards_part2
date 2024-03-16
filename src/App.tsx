@@ -148,7 +148,7 @@ function App() {
     const shuffledCardDeck = [...cardDeck];
     const savedIndex = cardDeck.indexOf(currentProblem);
 
-    shuffle(shuffledCardDeck);
+    shuffle(shuffledCardDeck, savedIndex);
     const currentIndex = shuffledCardDeck.indexOf(currentProblem);
 
     [shuffledCardDeck[currentIndex], shuffledCardDeck[savedIndex]] = [
@@ -159,9 +159,10 @@ function App() {
     setCardDeck(shuffledCardDeck);
   };
 
-  const shuffle = (array: Problem[]) => {
+  const shuffle = (array: Problem[], currentIndex: number) => {
     for (let i = array.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
+      const j =
+        Math.floor(Math.random() * (i - currentIndex + 1)) + currentIndex;
       [array[i], array[j]] = [array[j], array[i]];
     }
     return array;
